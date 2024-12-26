@@ -13,13 +13,13 @@ function runCode(filePath, language, outputChannel) {
 
     switch (language) {
         case 'Python':
-            runCommand = config.get('python.run', 'py $filename');
+            runCommand = config.get('python.run');
             break;
         case 'C++':
-            runCommand = config.get('cpp.run', 'g++ -o $fileNameWithoutExt $filename && .\\$fileNameWithoutExt');
+            runCommand = config.get('cpp.run');
             break;
         case 'JavaScript':
-            runCommand = config.get('javascript.run', 'node $filename');
+            runCommand = config.get('javascript.run');
             break;
         default:
             return Promise.reject(new Error('Unsupported language'));

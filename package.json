@@ -15,13 +15,62 @@
     "commands": [
       {
         "command": "cph.fetchTestCases",
-        "title": "CPH: Fetch Test Cases"
+        "title": "CPH: Fetch Test Cases",
+        "category": "CPH"
       },
       {
         "command": "cph.runCode",
         "title": "CPH: Run Test Cases"
       }
-    ]
+    ],
+    "keybindings": [
+      {
+        "command": "cph.fetchTestCases",
+        "key": "ctrl+alt+f",
+        "mac": "cmd+alt+f",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "cph.runCode",
+        "key": "ctrl+alt+r",
+        "mac": "cmd+alt+r",
+        "when": "editorTextFocus"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "cph.fetchTestCases",
+          "group": "navigation",
+          "when": "resourceLangId == cpp || resourceLangId == python || resourceLangId == javascript"
+        },
+        {
+          "command": "cph.runCode",
+          "group": "navigation",
+          "when": "resourceLangId == cpp || resourceLangId == python || resourceLangId == javascript"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "CPH LeetCode Settings",
+      "properties": {
+        "cph.language.cpp.run": {
+          "type": "string",
+          "default": "g++ -o $fileNameWithoutExt $filename && .\\$fileNameWithoutExt",
+          "description": "Command to run C++ files."
+        },
+        "cph.language.python.run": {
+          "type": "string",
+          "default": "py $filename",
+          "description": "Command to run Python files."
+        },
+        "cph.language.javascript.run": {
+          "type": "string",
+          "default": "node $filename",
+          "description": "Command to run JavaScript files."
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",
