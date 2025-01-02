@@ -16,3 +16,4 @@ vsc-extension-quickstart.md
 **/jsconfig.json
 **/*.map
 **/.vscode-test.*
+*.vsix

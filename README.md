@@ -14,7 +14,6 @@ This VS Code extension allows users to fetch test cases for LeetCode problems di
 
 - **Node.js** (v12.x or later)
 - **VS Code** (v1.60 or later)
-- **Puppeteer**: The extension uses Puppeteer to scrape test cases from LeetCode.
 
 ## Installation
 
