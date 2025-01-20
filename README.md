@@ -65,6 +65,20 @@ The test cases will be saved in a `testCase` folder in your workspace directory.
 - **CPH: Fetch Test Cases**: Prompts the user for a LeetCode problem URL, fetches the test cases, and saves them in the `testCase` folder.
 - **CPH: Run Test Cases**: Runs the fetched test cases against the user's code and shows the results.
 
+## Keybindings and Menus
+
+### Keybindings:
+
+- **Ctrl + Alt + F** (Windows/Linux) / **Cmd + Alt + F** (Mac): Fetch Test Cases.
+- **Ctrl + Alt + R** (Windows/Linux) / **Cmd + Alt + R** (Mac): Run Test Cases.
+
+These keybindings are available when the editor window is focused.
+
+### Menus:
+
+The **CPH: Fetch Test Cases** and **CPH: Run Test Cases** commands are also available in the **editor context menu** when the file is a supported language (C++, Python, or JavaScript).
+
+
 ## Configuration
 
 The extension supports the following settings to customize the fetch and run behavior:
