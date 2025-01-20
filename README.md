@@ -21,8 +21,11 @@ This VS Code extension allows users to fetch test cases for LeetCode problems di
 
 1. Open **VS Code**.
 2. Navigate to the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window.
-3. Search for `CPH: LeetCode`.
+3. Search for **"Competitive Programming Helper: Leetcode (CPH)"**.
 4. Click **Install**.
+
+Alternatively, you can download the extension directly from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=Sunilkumar.cph).
+
 
 ### Manually Install
 
