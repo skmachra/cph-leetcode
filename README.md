@@ -52,10 +52,13 @@ This VS Code extension allows users to fetch test cases for LeetCode problems di
 
 ### Test Case Folder
 
-The test cases will be saved in a `testCase` folder in your workspace directory. The folder will contain two files:
+The test cases will be saved in a `testCase` folder in your workspace directory. The folder will contain input/output files:
 
-- `input.txt`: Contains the input values for each test case.
-- `output.txt`: Contains the expected output for each test case.
+
+## File Description:
+
+- **Input Files**: Each `input_X.txt` file contains the input values for the corresponding test case.
+- **Output Files**: Each `output_X.txt` file contains the expected output for the corresponding test case.
 
 ## Commands
 
