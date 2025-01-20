@@ -84,6 +84,7 @@ The **CPH: Fetch Test Cases** and **CPH: Run Test Cases** commands are also avai
 ### Demo Video
 
 Watch the demo video below to see how the **Competitive Programming Helper: Leetcode (CPH)** extension works:
+[CPH Extension Demo](https://res.cloudinary.com/dibahduxj/video/upload/v1737386649/r1hotzrjoy341537yso9.mp4)
 
 <video width="720" height="480" controls>
   <source src="https://res.cloudinary.com/dibahduxj/video/upload/v1737386649/r1hotzrjoy341537yso9.mp4" type="video/mp4">
