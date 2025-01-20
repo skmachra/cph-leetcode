@@ -26,7 +26,13 @@ This VS Code extension allows users to fetch test cases for LeetCode problems di
 
 ### Manually Install
 
-1. Clone or download this repository.
+1. Clone or download this repository:
+   ```bash
+   git clone https://github.com/skmachra/cph-leetcode.git
+   cd cph-leetcode
+2. Install dependencies:
+   ```bash
+   npm install
 2. Open the project folder in VS Code.
 3. Press `F5` to launch the extension in a new Extension Development Host window.
 
