@@ -81,6 +81,15 @@ These keybindings are available when the editor window is focused.
 
 The **CPH: Fetch Test Cases** and **CPH: Run Test Cases** commands are also available in the **editor context menu** when the file is a supported language (C++, Python, or JavaScript).
 
+### Demo Video
+
+Watch the demo video below to see how the **Competitive Programming Helper: Leetcode (CPH)** extension works:
+
+<video width="720" height="480" controls>
+  <source src="./video.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 
 ## Configuration
 
