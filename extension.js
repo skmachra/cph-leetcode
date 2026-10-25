@@ -83,60 +83,56 @@ function activate(context) {
       }
 
       try {
-        const output = await runCode(filePath, language, outputChannel);
-        const testCaseNumber = await vscode.window.showInputBox({
-          placeHolder: "Enter test case number (e.g., 1, 2, 3)",
-          validateInput: (value) => {
-            return /^[0-9]+$/.test(value)
-              ? null
-              : "Please enter a valid number";
-          },
-        });
-        const directoryPath = path.join(vscode.workspace.rootPath, "testCase");
-        const expectedOutputFiles = fs
-          .readdirSync(directoryPath)
-          .filter((file) => file.startsWith(`output_${testCaseNumber}`));
-
-        if (expectedOutputFiles.length === 0) {
-          vscode.window.showWarningMessage(
-            `No expected output files found (files starting with output_${testCaseNumber}).`
-          );
+        const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+        if (!workspacePath) {
+          vscode.window.showErrorMessage("No workspace directory found. Please open a folder in VS Code.");
+          return;
+        }
+        // Accept either testcase or testCase folder names (including older generated folders).
+        const directoryName = fs.readdirSync(workspacePath, { withFileTypes: true })
+          .find((entry) => entry.isDirectory() && entry.name.toLowerCase() === "testcase")?.name;
+        if (!directoryName) {
+          vscode.window.showErrorMessage("Could not find a testcase folder in the workspace.");
+          return;
+        }
+        const directoryPath = path.join(workspacePath, directoryName);
+        const inputFiles = fs.readdirSync(directoryPath)
+          .map((name) => ({ name, match: name.match(/^input_(\d+)(?:\.txt)?$/i) }))
+          .filter((file) => file.match)
+          .sort((a, b) => Number(a.match[1]) - Number(b.match[1]));
+        if (!inputFiles.length) {
+          vscode.window.showWarningMessage("No input_N or input_N.txt files found in the testcase folder.");
           return;
         }
 
-        let testPassed = true;
-        for (const expectedFile of expectedOutputFiles) {
-          const expectedOutput = fs.readFileSync(
-            path.join(directoryPath, expectedFile),
-            "utf-8"
-          );
-          const comparisonResult = compareOutputs(output, expectedOutput);
-          outputChannel.clear();
-          outputChannel.appendLine("=== Test Case Results ===");
-          if (comparisonResult) {
-            outputChannel.appendLine(`Test Case ${testCaseNumber}: ✅ PASSED`);
-            outputChannel.appendLine("Expected Output:");
-            outputChannel.appendLine(expectedOutput);
-            outputChannel.appendLine("Actual Output:");
-            outputChannel.appendLine(output);
-            outputChannel.appendLine("-------------------------");
-          } else {
-            outputChannel.appendLine(`Test Case ${testCaseNumber}: ❌ FAILED`);
-            outputChannel.appendLine("Expected Output:");
-            outputChannel.appendLine(expectedOutput);
-            outputChannel.appendLine("Actual Output:");
-            outputChannel.appendLine(output);
-            outputChannel.appendLine("-------------------------");
-            testPassed = false;
+        outputChannel.appendLine("=== Test Case Results ===");
+        let allPassed = true;
+        for (const inputFile of inputFiles) {
+          const number = inputFile.match[1];
+          const expectedFile = fs.readdirSync(directoryPath)
+            .find((name) => new RegExp(`^output_${number}(?:\\.txt)?$`, "i").test(name));
+          if (!expectedFile) {
+            outputChannel.appendLine(`Test Case ${number}: ⚠️ Missing output_${number}`);
+            allPassed = false;
+            continue;
           }
+          const input = fs.readFileSync(path.join(directoryPath, inputFile.name), "utf8");
+          const expectedOutput = fs.readFileSync(path.join(directoryPath, expectedFile), "utf8");
+          const output = await runCode(filePath, language, outputChannel, input);
+          const passed = compareOutputs(output, expectedOutput);
+          outputChannel.appendLine(`Test Case ${number}: ${passed ? "✅ PASSED" : "❌ FAILED"}`);
+          if (!passed) {
+            allPassed = false;
+            outputChannel.appendLine("Expected Output:");
+            outputChannel.appendLine(expectedOutput);
+            outputChannel.appendLine("Actual Output:");
+            outputChannel.appendLine(output);
+          }
+          outputChannel.appendLine("-------------------------");
         }
         outputChannel.show();
-
-        if (testPassed) {
-          vscode.window.showInformationMessage("Test cases passed!");
-        } else {
-          vscode.window.showErrorMessage("Test cases failed.");
-        }
+        if (allPassed) vscode.window.showInformationMessage("All test cases passed!");
+        else vscode.window.showErrorMessage("Some test cases failed. See the CPH output for details.");
       } catch (err) {
         vscode.window.showErrorMessage(`Error: ${err}`);
       }

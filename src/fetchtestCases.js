@@ -4,6 +4,13 @@ const fs = require("fs");
 const path = require("path");
 const vscode = require("vscode");
 
+// LeetCode examples label each argument (for example, `x = -123`), while
+// stdin-based solutions expect only the value. Keep one argument per line.
+const normalizeInput = (input) => input
+  .split(/\r?\n/)
+  .map((line) => line.replace(/^\s*[A-Za-z_$][\w$]*\s*=(?!=)\s*/, ""))
+  .join("\n");
+
 /**
  * @param {string} curl
  * @param {string} workspacePath
@@ -82,7 +89,7 @@ const fetchTestCase = async (curl, workspacePath, outputChannel) => {
 
     if (inputMatch.length > 0 && outputMatch.length > 0) {
       for (let i = 0; i < inputMatch.length; i++) {
-        const input = inputMatch[i][1].trim();
+        const input = normalizeInput(inputMatch[i][1].trim());
         const output = outputMatch[i] ? outputMatch[i][1].trim() : "No Output";
 
         const inputFilePath = path.join(
